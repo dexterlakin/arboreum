@@ -1,22 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Arboreum
-        </a>
+        <p class="font-semibold">A r b o r e u m</p>
+        <br/>
+        <img src="tree.png" width="300" height="300" alt="" />
+        <br />
+        <button class="bg-white hover:bg-gray-100 text-gray-800 text-base font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+          connect your wallet
+        </button>
       </header>
     </div>
   );
