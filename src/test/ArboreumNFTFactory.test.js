@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const hre = require("hardhat");
+//const hre = require("hardhat");
 
 describe("Minting the token and returning it", function () {
   it.skip("contract should be able to mint", async function () {
