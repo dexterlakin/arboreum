@@ -11,15 +11,12 @@ async function main() {
   //
   // If this script is run directly using `node` you may want to call compile
   // manually to make sure everything is compiled
-  // await hre.run('compile');
+  await hre.run('compile');
 
-  // We get the contract to deploy
-  const arboreumFactory = await hre.ethers.getContractFactory("Arboreum");
+  const arboreumFactory = await hre.ethers.getContractFactory("ArboreumNFTFactory");
   const arboreumContract = await arboreumFactory.deploy();
-
   await arboreumContract.deployed();
-
-  console.log("Arboreum deployed to:", arboreumContract.address);
+  console.log("ArboreumNFTFactory deployed to:", arboreumContract.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

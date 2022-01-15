@@ -3,10 +3,12 @@ import Web3Provider from "web3";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { ToastContainer, toast } from "react-toastify";
-import { Link, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { Monetize } from "./views";
+import Web3 from "web3";
+
 const injected = new InjectedConnector({ supportedChainIds: [4] });
 
 function getLibrary(provider) {
@@ -17,7 +19,22 @@ const App = () => {
   const { active, account, activate, deactivate } = useWeb3React();
 
   async function handleMintNftClick() {
-    toast.info("You wish!");
+    const { abi } = require("./artifacts/contracts/ArboreumNFTFactory.sol/ArboreumNFTFactory.json");
+    const web3 = new Web3(window.ethereum);
+    await window.ethereum.enable();
+    const accounts = await web3.eth.getAccounts();
+    const arboreumContract = new web3.eth.Contract(abi, "0xBBc28A113b2827876E1DdB62494eC9030d7229Ae");
+    const tokenURI = "https://bafkreihxf3jhym32l2kerjwnqo3pzppowq6bg3qedvqvj72np4nyxyf67y.ipfs.dweb.link/";
+    var tx = arboreumContract.methods.createToken(tokenURI).send({ from: accounts[0] });
+    toast.promise(
+      tx,
+      {
+        pending: "Minting NFT on the blockchain, please wait...",
+        success: "Success! You obtained an Arboreum NFT!",
+        error: "Failure! Unable to complete request.",
+      }
+    );
+    await tx;
   }
 
   async function handleConnectWalletClick() {
@@ -36,12 +53,8 @@ const App = () => {
     }
   }
 
-  async function handleMonetizeClick() {
-    try {
-      await activate(injected);
-    } catch (ex) {
-      console.log(ex);
-    }
+  function handleMonetizeClick() {
+    window.location.href = "/monetize";
   }
 
   return (
@@ -63,23 +76,25 @@ const App = () => {
         <h1 className="display-6">A r b o r e u m</h1>
         <img className="mt-3 mb-5" src="tree.png" width="275" height="275" alt="" />
         {active ? (
-          <>
+          <div>
             <small>
-              connected with <b>{account.substring(0, 4)}...{account.substring(account.length - 4)}</b>
+              connected with{" "}
+              <b>
+                {account.substring(0, 4)}...{account.substring(account.length - 4)}
+              </b>
             </small>
             <br />
-            <button type="button" onClick={handleMintNftClick} className="btn btn-outline-dark">
+            <br />
+            <button type="button" onClick={handleMintNftClick} className="mx-1 btn btn-outline-dark">
               mint nft
             </button>
-            <br />
-            <button type="button" onClick={handleMonetizeClick} className="btn btn-outline-dark">
-              <Link to="/monetize">monetize</Link>
+            <button type="button" onClick={handleMonetizeClick} className="mx-1 btn btn-outline-dark">
+              monetize
             </button>
-            <br />
-            <button type="button" onClick={handleDisconnectWalletClick} className="btn btn-outline-dark">
+            <button type="button" onClick={handleDisconnectWalletClick} className="mx-1 btn btn-outline-dark">
               disconnect
             </button>
-          </>
+          </div>
         ) : (
           <button type="button" onClick={handleConnectWalletClick} className="btn btn-outline-dark">
             connect your wallet
