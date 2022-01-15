@@ -52,7 +52,7 @@ const App = () => {
         {active ? (
           <>
             <small>
-              connected with <b>{account}</b>
+              connected with <b>{account.substring(0,4)}...{account.substring(account.length - 4)}</b>
             </small>
             <br />
             <button type="button" onClick={handleMintNftClick} className="btn btn-outline-dark">
