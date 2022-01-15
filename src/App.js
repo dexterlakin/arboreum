@@ -3,10 +3,10 @@ import Web3Provider from "web3";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { ToastContainer, toast } from "react-toastify";
-
+import { Link, Route, Switch } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-
+import { Monetize } from "./views";
 const injected = new InjectedConnector({ supportedChainIds: [4] });
 
 function getLibrary(provider) {
@@ -36,6 +36,14 @@ const App = () => {
     }
   }
 
+  async function handleMonetizeClick() {
+    try {
+      await activate(injected);
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+
   return (
     <div className="App">
       {/* Bootstrap CSS should be at beginning of page */}
@@ -46,6 +54,11 @@ const App = () => {
         crossOrigin="anonymous"
       ></link>
       <header className="App-header">
+        <Switch>
+          <Route exact path="/monetize">
+            <Monetize />
+          </Route>
+        </Switch>
         <ToastContainer />
         <h1 className="display-6">A r b o r e u m</h1>
         <img className="mt-3 mb-5" src="tree.png" width="275" height="275" alt="" />
@@ -57,6 +70,10 @@ const App = () => {
             <br />
             <button type="button" onClick={handleMintNftClick} className="btn btn-outline-dark">
               mint nft
+            </button>
+            <br />
+            <button type="button" onClick={handleMonetizeClick} className="btn btn-outline-dark">
+              <Link to="/monetize">monetize</Link>
             </button>
             <br />
             <button type="button" onClick={handleDisconnectWalletClick} className="btn btn-outline-dark">
