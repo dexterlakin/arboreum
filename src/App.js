@@ -14,7 +14,7 @@ function getLibrary(provider) {
 }
 
 const App = () => {
-  const { active, account, library, connector, activate, deactivate } = useWeb3React();
+  const { active, account, activate, deactivate } = useWeb3React();
 
   async function handleMintNftClick() {
     toast.info("You wish!");
@@ -79,7 +79,7 @@ const App = () => {
   );
 };
 
-export default function () {
+export default function index() {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <App />
