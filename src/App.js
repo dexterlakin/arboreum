@@ -3,10 +3,8 @@ import Web3Provider from "web3";
 import { useWeb3React } from "@web3-react/core";
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { ToastContainer, toast } from "react-toastify";
-import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import { Monetize } from "./views";
 import Web3 from "web3";
 
 const injected = new InjectedConnector({ supportedChainIds: [4, 80001] });
@@ -28,14 +26,11 @@ const App = () => {
     const arboreumContract = new web3.eth.Contract(abi, CONTRACT_MUMBAI);
     const tokenURI = "https://bafkreihxf3jhym32l2kerjwnqo3pzppowq6bg3qedvqvj72np4nyxyf67y.ipfs.dweb.link/";
     var tx = arboreumContract.methods.createToken(tokenURI).send({ from: accounts[0] });
-    toast.promise(
-      tx,
-      {
-        pending: "Minting NFT on the blockchain, please wait...",
-        success: "Success! You obtained an Arboreum NFT!",
-        error: "Failure! Unable to complete request.",
-      }
-    );
+    toast.promise(tx, {
+      pending: "Minting NFT on the blockchain, please wait...",
+      success: "Success! You obtained an Arboreum NFT!",
+      error: "Failure! Unable to complete request.",
+    });
   }
 
   async function handleConnectWalletClick() {
@@ -54,10 +49,6 @@ const App = () => {
     }
   }
 
-  function handleMonetizeClick() {
-    window.location.href = "/monetize";
-  }
-
   return (
     <div className="App">
       {/* Bootstrap CSS should be at beginning of page */}
@@ -68,39 +59,39 @@ const App = () => {
         crossOrigin="anonymous"
       ></link>
       <header className="App-header">
-        <Switch>
-          <Route exact path="/monetize">
-            <Monetize />
-          </Route>
-        </Switch>
         <ToastContainer />
-        <h1 className="display-6">A r b o r e u m</h1>
-        <img className="mt-3 mb-5" src="tree.png" width="275" height="275" alt="" />
-        {active ? (
-          <div>
-            <small>
-              connected with{" "}
-              <b>
-                {account.substring(0, 4)}...{account.substring(account.length - 4)}
-              </b>
-            </small>
-            <br />
-            <br />
-            <button type="button" onClick={handleMintNftClick} className="mx-1 btn btn-outline-dark">
-              mint nft
-            </button>
-            <button type="button" onClick={handleMonetizeClick} className="mx-1 btn btn-outline-dark">
-              monetize
-            </button>
-            <button type="button" onClick={handleDisconnectWalletClick} className="mx-1 btn btn-outline-dark">
-              disconnect
-            </button>
+        <div className="mt-2 d-flex justify-content-center" style={{ position: "relative" }}>
+          <img src="frame.png" alt="" />
+          <div style={{ position: "absolute", top: 200 }}>
+            <div id="main">
+              <h1 className="display-6">A r b o r e u m</h1>
+              <img className="mt-3 mb-5" src="tree.png" width="275" height="275" alt="" />
+              {active ? (
+                <>
+                  <small>
+                    <br />
+                    connected with{" "}
+                    <b>
+                      {account.substring(0, 4)}...{account.substring(account.length - 4)}
+                    </b>
+                  </small>
+                  <br />
+                  <br />
+                  <button type="button" onClick={handleMintNftClick} className="mx-1 btn btn-outline-dark">
+                    mint nft
+                  </button>
+                  <button type="button" onClick={handleDisconnectWalletClick} className="mx-1 btn btn-outline-dark">
+                    disconnect
+                  </button>
+                </>
+              ) : (
+                <button type="button" onClick={handleConnectWalletClick} className="btn btn-outline-dark">
+                  connect your wallet
+                </button>
+              )}
+            </div>
           </div>
-        ) : (
-          <button type="button" onClick={handleConnectWalletClick} className="btn btn-outline-dark">
-            connect your wallet
-          </button>
-        )}
+        </div>
       </header>
       {/* Bootstrap JS should be at end of page */}
       <script
