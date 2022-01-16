@@ -5,7 +5,6 @@ require("dotenv").config({ path: __dirname + "/.env" });
 // https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
-
   for (const account of accounts) {
     console.log(account.address);
   }
@@ -24,6 +23,10 @@ module.exports = {
     },
     rinkeby: {
       url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
+      accounts: [`${process.env.DEPLOYER_PK}`],
+    },
+    matic: {
+      url: "https://rpc-mumbai.maticvigil.com",
       accounts: [`${process.env.DEPLOYER_PK}`],
     },
   },

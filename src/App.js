@@ -9,7 +9,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { Monetize } from "./views";
 import Web3 from "web3";
 
-const injected = new InjectedConnector({ supportedChainIds: [4] });
+const injected = new InjectedConnector({ supportedChainIds: [4, 80001] });
+const CONTRACT_RINKEBY = "0xBBc28A113b2827876E1DdB62494eC9030d7229Ae";
+const CONTRACT_MUMBAI = "0xBd770416a3345F91E4B34576cb804a576fa48EB1";
 
 function getLibrary(provider) {
   return new Web3Provider(provider);
@@ -19,11 +21,11 @@ const App = () => {
   const { active, account, activate, deactivate } = useWeb3React();
 
   async function handleMintNftClick() {
-    const { abi } = require("./artifacts/contracts/ArboreumNFTFactory.sol/ArboreumNFTFactory.json");
     const web3 = new Web3(window.ethereum);
     await window.ethereum.enable();
     const accounts = await web3.eth.getAccounts();
-    const arboreumContract = new web3.eth.Contract(abi, "0xBBc28A113b2827876E1DdB62494eC9030d7229Ae");
+    const { abi } = require("./artifacts/contracts/ArboreumNFTFactory.sol/ArboreumNFTFactory.json");
+    const arboreumContract = new web3.eth.Contract(abi, CONTRACT_MUMBAI);
     const tokenURI = "https://bafkreihxf3jhym32l2kerjwnqo3pzppowq6bg3qedvqvj72np4nyxyf67y.ipfs.dweb.link/";
     var tx = arboreumContract.methods.createToken(tokenURI).send({ from: accounts[0] });
     toast.promise(
@@ -34,7 +36,6 @@ const App = () => {
         error: "Failure! Unable to complete request.",
       }
     );
-    await tx;
   }
 
   async function handleConnectWalletClick() {
