@@ -10,7 +10,7 @@ import { Monetize } from "./views";
 import Web3 from "web3";
 
 const injected = new InjectedConnector({ supportedChainIds: [4, 80001] });
-const CONTRACT_RINKEBY = "0xBBc28A113b2827876E1DdB62494eC9030d7229Ae";
+// const CONTRACT_RINKEBY = "0xBBc28A113b2827876E1DdB62494eC9030d7229Ae";
 const CONTRACT_MUMBAI = "0xBd770416a3345F91E4B34576cb804a576fa48EB1";
 
 function getLibrary(provider) {
